@@ -1,1 +1,21 @@
-
+TO DO:
+Main goal: Make a working gas mileage/price calculator.
+Sub goals:
+Determine the gas mileage of a certain vehicle.
+	Create a list of vehicles.
+	Get the city and highway mileages for each vehicle.
+		Make sure to retrieve information on different model years, engines, and transmissions for the given vehicle.
+Create a step by step process for determining the vehicle the user would like to get information about.
+Determine the price to drive a distance.
+	Retrieve the national average gas price.
+	Retrieve the driving distance from the user.
+	Retrieve the percentage of city driving from the user.
+	Calculate.
+Extra time:
+Retrieve vehicle information and gas prices from the internet.
+	Determine how to pull information from the internet and/or excel using python.
+	Pull the average gas price from the internet.
+	Pull a list of specific vehicles with their city and highway gas mileage from either the internet or excel.
+	Put that information into the program.
+Even more extra time:
+Be able to send and recieve distance information using Google Maps or other mapping software.
