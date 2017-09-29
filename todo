@@ -3,6 +3,7 @@ Main goal: Make a working gas mileage/price calculator.
 Sub goals:
 Determine the gas mileage of a certain vehicle.
 	Create a list of vehicles.
+		Learn how to import lists from separate files into python.
 	Get the city and highway mileages for each vehicle.
 		Make sure to retrieve information on different model years, engines, and transmissions for the given vehicle.
 Create a step by step process for determining the vehicle the user would like to get information about.
