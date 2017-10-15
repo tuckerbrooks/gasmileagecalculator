@@ -4,7 +4,6 @@ def main():
 	specifiedVehicle = vehicleLookup()
 	theVehicle = specifyVehicle(specifiedVehicle)
 	printInfo = printInfo(theVehicle)
-	calculateTrip
 
 class Vehicle():
 	def __init__(self, citympg, combmpg, highwaympg, year, make, model, cylinders, displacement, transmission, drive):
@@ -38,7 +37,7 @@ def specifyVehicle(specifiedVehicle):
 	return output[0]
 
 def calculateTrip():
-
+	pass
 
 def getVehicleInfo():
 	vehicleInfo = csv.DictReader(open('vehicles.csv'))
