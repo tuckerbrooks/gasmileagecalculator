@@ -3,8 +3,8 @@ import csv
 def main():
 	specifiedVehicle = vehicleLookup()
 	theVehicle = specifyVehicle(specifiedVehicle)
-	printInfo = printInfo(theVehicle)
-	calculateTrip
+	printIt = printInfo(theVehicle)
+	calculateTrip(printIt, theVehicle)
 
 class Vehicle():
 	def __init__(self, citympg, combmpg, highwaympg, year, make, model, cylinders, displacement, transmission, drive):
@@ -37,8 +37,31 @@ def specifyVehicle(specifiedVehicle):
 			output.append(vehicle)
 	return output[0]
 
-def calculateTrip():
-
+def calculateTrip(tf, vehicle):
+	if tf == 0:
+		answer = extraQuestions()
+		gasPrice = answer[0]
+		distance = answer[1]
+		percentage = answer[2] / 50
+		mpg = 0
+		if 0 <= percentage <= 1:
+			diff = abs(float(vehicle.citympg) - float(vehicle.combmpg))
+			if vehicle.citympg <= vehicle.combmpg:
+				mpg = (percentage * diff) + float(vehicle.citympg)
+			else:
+				mpg = float(vehicle.citympg) - (percentage * diff)
+		elif 1 < percentage <= 2:
+			diff = abs(float(vehicle.combmpg) - float(vehicle.highwaympg))
+			if vehicle.combmpg <= vehicle.highwaympg:
+				mpg = ((percentage - 1) * diff) + float(vehicle.combmpg)
+			else:
+				mpg = float(vehicle.combmpg) - ((percentage - 1) * diff)
+		else:
+			percentage = input("Error, please type a percentage between 0 - 100.")
+			exit()
+		finalPrice = (distance/mpg) * gasPrice
+		print ("Traveling", str(distance), "miles, $" + str(gasPrice), "per gallon, with", str(mpg), "mpg.")
+		print ("Total: $" + str(round(finalPrice, 2)))
 
 def getVehicleInfo():
 	vehicleInfo = csv.DictReader(open('vehicles.csv'))
@@ -193,18 +216,19 @@ def printInfo(specifiedVehicle):
 	print ("City:", specifiedVehicle.citympg)
 	print ("Highway:", specifiedVehicle.highwaympg)
 	print ("Combined:", specifiedVehicle.combmpg)
-	tripYN = input("Would you like to calculate the price of a trip?")
-	if tripYN == "yes":
-		return true
-	elif tripYN == "no":
-		return false
+	tripYN = input("Would you like to calculate the price of a trip? ")
+	if tripYN == "yes" or tripYN == "Yes" or tripYN == "y":
+		return 0
+	elif tripYN == "no" or tripYN == "No" or tripYN == "n":
+		return 1
 	else:
-		tripYN = return input("Error. Please type yes or no.")
+		tripYN = input("Error. Please type yes or no.")
+		exit()
 
 def extraQuestions():
-	gasPrice = input("What is the current gas price? (do not include $ symbol) ")
-	distance = input("How far will you be going? (in miles) ")
-	percentage = input("What percentage of driving will be on the highway? (do not include percent symbol) ")
+	gasPrice = float(input("What is the current gas price? (do not include $ symbol) "))
+	distance = float(input("How far will you be going? (in miles) "))
+	percentage = float(input("What percentage of driving will be on the highway? (do not include percent symbol) "))
 	return [gasPrice, distance, percentage]
 
 
