@@ -1,4 +1,5 @@
 import csv
+import sqlalchemy as sa
 
 def main():
 	specifiedVehicle = vehicleLookup()
