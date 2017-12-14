@@ -1,11 +1,20 @@
 import csv
-import sqlalchemy as sa
+import googlemaps
+from datetime import datetime
 
 def main():
+	getVehicleInfo()
 	specifiedVehicle = vehicleLookup()
 	theVehicle = specifyVehicle(specifiedVehicle)
 	printIt = printInfo(theVehicle)
 	calculateTrip(printIt, theVehicle)
+
+gmaps = googlemaps.Client(key='AIzaSyCatPE9kkddRTSF6bNvmq0MOgdF4XFeycQ')
+vehicles = []
+
+def createTables(metadata, conn):
+	users = Table('users', metadata, Column('id', Integer, primary_key=True), Column('city', Integer), Column('comb', Integer), Column('highway', Integer), Column('year', Integer), Column('make', String), Column('model', String), Column('cylinders', Integer), Column('displacement', Float), Column('transmission', String), Column('drive', String))
+	metadata.create_all(engine)
 
 class Vehicle():
 	def __init__(self, citympg, combmpg, highwaympg, year, make, model, cylinders, displacement, transmission, drive):
@@ -20,7 +29,6 @@ class Vehicle():
 		self.transmission = transmission
 		self.drive = drive
 
-vehicles = []
 questions = [
 	"What year is your vehicle? ",
 	"What make is your vehicle? (Make sure capitalization and spelling is correct on all questions) ",
@@ -30,6 +38,14 @@ questions = [
 	"What kind of transmission does your vehicle have? ",
 	"What is the drivetrain of your vehicle? "
 ]
+
+def getDistance():
+	origin = str(input("What is the starting point? (Please write out full address) "))
+	destination = str(input("What is the destination? (Please write out full address) "))
+	now = datetime.now()
+	directions_result = gmaps.directions(origin, destination, mode="driving", departure_time=now)
+	distance = str(directions_result[0]['legs'][0]['distance']['text'])
+	return float(distance.rstrip(" mi"))
 
 def specifyVehicle(specifiedVehicle):
 	output = []
@@ -70,7 +86,6 @@ def getVehicleInfo():
 		vehicles.append(Vehicle(row["citympg"], row["combmpg"], row["highwaympg"], row["year"], row["make"], row["model"], row["cylinders"], row["displacement"], row["transmission"], row["drive"]))
 
 def vehicleLookup():
-	getVehicleInfo()
 	year = getYear(questions[0])
 	make = getMake(year, questions[1])
 	model = getModel(make, year, questions[2])
@@ -228,7 +243,7 @@ def printInfo(specifiedVehicle):
 
 def extraQuestions():
 	gasPrice = float(input("What is the current gas price? (do not include $ symbol) "))
-	distance = float(input("How far will you be going? (in miles) "))
+	distance = getDistance()
 	percentage = float(input("What percentage of driving will be on the highway? (do not include percent symbol) "))
 	return [gasPrice, distance, percentage]
 
