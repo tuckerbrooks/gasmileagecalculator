@@ -1,8 +1,11 @@
 import csv
 import googlemaps
+from lxml import html
+import requests
 from datetime import datetime
 
 def main():
+	gasPrice()
 	getVehicleInfo()
 	specifiedVehicle = vehicleLookup()
 	theVehicle = specifyVehicle(specifiedVehicle)
@@ -38,6 +41,12 @@ questions = [
 	"What kind of transmission does your vehicle have? ",
 	"What is the drivetrain of your vehicle? "
 ]
+
+def gasPrice():
+	page = requests.get('http://gasprices.aaa.com')
+	tree = html.fromstring(page.content)
+	gasPrices = tree.xpath('/html/body/main/div[3]/table/tbody/tr[1]/td[2]')
+	print (str(gasPrices))
 
 def getDistance():
 	origin = str(input("What is the starting point? (Please write out full address) "))
